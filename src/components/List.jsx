@@ -4,6 +4,7 @@ import { useItemList } from '@/hooks'
 import { getTotalAmount } from '@/utils'
 import { FaTrash, FaDollarSign } from 'react-icons/fa6'
 import { Listbox, ListboxItem, Button, ListboxSection } from '@nextui-org/react'
+import ItemsLoader from './ItemsLoader'
 
 function DeleteButton({ handleClick }) {
   return (
@@ -22,7 +23,7 @@ export default function List() {
   const data = useItemList()
   const isLoading = useMemo(() => data.length === 0)
 
-  if (isLoading) return <p>Data is loading</p>
+  if (isLoading) return <ItemsLoader />
 
   const totalAmount = getTotalAmount(data)
 
@@ -34,7 +35,6 @@ export default function List() {
       emptyContent
     >
       <ListboxSection
-        showDivider
         items={data}
         classNames={{
           group: 'flex flex-col flex-col-reverse',

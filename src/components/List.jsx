@@ -5,6 +5,7 @@ import { getTotalAmount } from '@/utils'
 import { FaTrash, FaDollarSign } from 'react-icons/fa6'
 import { Listbox, ListboxItem, Button, ListboxSection } from '@nextui-org/react'
 import ItemsLoader from './ItemsLoader'
+import { useHomeContext } from './home-provider'
 
 function DeleteButton({ handleClick }) {
   return (
@@ -20,12 +21,17 @@ function ItemTitle({ title }) {
 }
 
 export default function List() {
+  const { handleItemsUpdate } = useHomeContext()
   const data = useItemList()
-  const isLoading = useMemo(() => data.length === 0)
+  const isLoading = useMemo(() => data.length < 1, [data])
+  const totalAmount = useMemo(() => getTotalAmount(data), [data])
+
+  const handleRemoveItem = id => {
+    const newList = data.filter(item => item.id !== id)
+    handleItemsUpdate(newList)
+  }
 
   if (isLoading) return <ItemsLoader />
-
-  const totalAmount = getTotalAmount(data)
 
   return (
     <Listbox
@@ -44,7 +50,9 @@ export default function List() {
           <ListboxItem
             key={item.title + index}
             startContent={<ItemTitle title={item.title} />}
-            endContent={<DeleteButton />}
+            endContent={
+              <DeleteButton handleClick={() => handleRemoveItem(item.id)} />
+            }
             textValue={item.title}
             variant="flat"
             color="warning"

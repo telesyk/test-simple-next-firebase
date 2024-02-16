@@ -4,10 +4,12 @@ import HomeProvider from '@/components/home-provider'
 
 const testItems = [
   {
+    id: 1,
     title: 'Movie',
     value: '19.00',
   },
   {
+    id: 2,
     title: 'Mall',
     value: '50.00',
   },

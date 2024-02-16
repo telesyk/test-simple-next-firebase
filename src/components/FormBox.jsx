@@ -1,24 +1,22 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import { useHomeContext } from './home-provider'
+import { useItemList } from '@/hooks'
 import { Card, CardBody, CardHeader } from '@nextui-org/react'
 import Form from '@/components/Form'
 
 export default function FormBox() {
-  const { data, handleStateUpdate } = useHomeContext()
-  const [state, setState] = useState(data)
+  const { handleItemsUpdate } = useHomeContext()
+  const data = useItemList()
 
-  useEffect(() => {
-    handleStateUpdate(state)
-  }, [state])
-
-  const handleSubmit = data => {
-    setState(prevState => [
-      ...prevState,
+  const handleSubmit = expenses => {
+    handleItemsUpdate([
+      ...data,
       {
-        title: data.title,
-        value: data.cost,
+        id: uuidv4(),
+        title: expenses.title,
+        value: expenses.cost,
       },
     ])
   }

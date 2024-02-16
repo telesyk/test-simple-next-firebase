@@ -10,10 +10,10 @@ export default function HomeProvider({ children, data }) {
     setState([...data])
   }, [data])
 
-  const handleStateUpdate = updatedData => setState([...updatedData])
+  const handleItemsUpdate = updatedData => setState([...updatedData])
 
   return (
-    <HomeContext.Provider value={{ data: state, handleStateUpdate }}>
+    <HomeContext.Provider value={{ data: state, handleItemsUpdate }}>
       {children}
     </HomeContext.Provider>
   )

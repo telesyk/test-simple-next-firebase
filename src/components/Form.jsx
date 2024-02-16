@@ -1,19 +1,10 @@
 'use client'
+import { useState } from 'react'
 import { Input, Button } from '@nextui-org/react'
-import { useRef, useState } from 'react'
 import { FaPlus, FaDollarSign } from 'react-icons/fa6'
 
 export default function Form({ onSubmit }) {
   const [state, setState] = useState({ title: '', cost: '' })
-  // const titleRef = useRef(null)
-  // const costRef = useRef(null)
-
-  // const handleValueChange = e => {
-  //   setState(prevState => ({
-  //     ...prevState,
-  //     [e.target.name]: e.target.value,
-  //   }))
-  // }
 
   const handleValueChange = (value, name) => {
     setState(prevState => ({
@@ -48,7 +39,6 @@ export default function Form({ onSubmit }) {
             name="title"
             onValueChange={e => handleValueChange(e, 'title')}
             value={state.title}
-            // ref={titleRef}
           />
         </div>
         <div className="flex-auto">
@@ -63,7 +53,6 @@ export default function Form({ onSubmit }) {
             onValueChange={e => handleValueChange(e, 'cost')}
             value={state.cost}
             endContent={<FaDollarSign />}
-            // ref={costRef}
           />
         </div>
         <div className="flex-auto">

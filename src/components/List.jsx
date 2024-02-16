@@ -1,7 +1,9 @@
 'use client'
-import { Listbox, ListboxItem, Button, ListboxSection } from '@nextui-org/react'
-import { FaTrash, FaDollarSign } from 'react-icons/fa6'
+import { useMemo } from 'react'
+import { useItemList } from '@/hooks'
 import { getTotalAmount } from '@/utils'
+import { FaTrash, FaDollarSign } from 'react-icons/fa6'
+import { Listbox, ListboxItem, Button, ListboxSection } from '@nextui-org/react'
 
 function DeleteButton({ handleClick }) {
   return (
@@ -16,19 +18,29 @@ function ItemTitle({ title }) {
   return <span className="flex-1">{title}</span>
 }
 
-export default function List({ items }) {
-  const totalAmount = getTotalAmount(items)
+export default function List() {
+  const data = useItemList()
+  const isLoading = useMemo(() => data.length === 0)
+
+  if (isLoading) return <p>Data is loading</p>
+
+  const totalAmount = getTotalAmount(data)
 
   return (
-    <Listbox aria-label="Actions" disabledKeys={['total']}>
+    <Listbox
+      aria-label="Actions"
+      disabledKeys={['total']}
+      className="max-w-2xl mx-auto"
+      emptyContent
+    >
       <ListboxSection
         showDivider
-        items={items}
+        items={data}
         classNames={{
           group: 'flex flex-col flex-col-reverse',
         }}
       >
-        {items.map((item, index) => (
+        {data.map((item, index) => (
           <ListboxItem
             key={item.title + index}
             startContent={<ItemTitle title={item.title} />}

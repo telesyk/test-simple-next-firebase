@@ -6,7 +6,8 @@ import { FaPlus, FaDollarSign } from 'react-icons/fa6'
 export default function Form({ onSubmit }) {
   const [state, setState] = useState({ title: '', cost: '' })
 
-  const handleValueChange = (value, name) => {
+  const handleValueChange = event => {
+    const { name, value } = event.target
     setState(prevState => ({
       ...prevState,
       [name]: value,
@@ -37,7 +38,7 @@ export default function Form({ onSubmit }) {
             placeholder="Title"
             color="primary"
             name="title"
-            onValueChange={e => handleValueChange(e, 'title')}
+            onChange={handleValueChange}
             value={state.title}
           />
         </div>
@@ -50,7 +51,7 @@ export default function Form({ onSubmit }) {
             placeholder="9.99"
             color="primary"
             name="cost"
-            onValueChange={e => handleValueChange(e, 'cost')}
+            onChange={handleValueChange}
             value={state.cost}
             endContent={<FaDollarSign />}
           />

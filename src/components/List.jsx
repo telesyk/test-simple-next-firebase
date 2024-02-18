@@ -17,19 +17,14 @@ function DeleteButton({ handleClick }) {
 
 function ItemTitle({ title }) {
   if (!title) return
-  return <span className="flex-1">{title}</span>
+  return <span className="flex-1 capitalize">{title}</span>
 }
 
 export default function List() {
-  const { handleItemsUpdate } = useHomeContext()
+  const { handleRemoveItems } = useHomeContext()
   const data = useItemList()
   const isLoading = useMemo(() => data.length < 1, [data])
   const totalAmount = useMemo(() => getTotalAmount(data), [data])
-
-  const handleRemoveItem = id => {
-    const newList = data.filter(item => item.id !== id)
-    handleItemsUpdate(newList)
-  }
 
   if (isLoading) return <ItemsLoader />
 
@@ -51,7 +46,7 @@ export default function List() {
             key={item.title + index}
             startContent={<ItemTitle title={item.title} />}
             endContent={
-              <DeleteButton handleClick={() => handleRemoveItem(item.id)} />
+              <DeleteButton handleClick={() => handleRemoveItems(item.id)} />
             }
             textValue={item.title}
             variant="flat"

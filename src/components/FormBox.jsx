@@ -1,30 +1,17 @@
 'use client'
 
-import { collection, addDoc } from 'firebase/firestore'
-import { db } from '../firebase.config'
 import { useHomeContext } from './home-provider'
-import { useItemList } from '@/hooks'
-import { COLLECTION_NAME } from '@/constants'
 import { Card, CardBody, CardHeader } from '@nextui-org/react'
 import Form from '@/components/Form'
 
 export default function FormBox() {
-  const { handleItemsUpdate } = useHomeContext()
-  const data = useItemList()
+  const { handleAddItems } = useHomeContext()
 
-  // Handler for setting data into firebase DB
-  const handleSubmit = async expenses => {
-    const newItem = {
+  const handleSubmit = expenses => {
+    handleAddItems({
       title: expenses.title.trim(),
       value: expenses.cost,
-    }
-    try {
-      // console.log(db)
-      const docRef = await addDoc(collection(db, COLLECTION_NAME), newItem)
-      console.log('Document written with ID: ', docRef.id)
-    } catch (e) {
-      console.error('Error adding document: ', e)
-    }
+    })
   }
 
   return (

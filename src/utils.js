@@ -5,7 +5,10 @@ import { COLLECTION_NAME } from './constants'
 export const getFirebaseData = async () => {
   const queryCollection = collection(db, COLLECTION_NAME)
   const querySnapshot = await getDocs(queryCollection)
-  const result = querySnapshot.docs.map(doc => doc.data())
+  const result = querySnapshot.docs.map(doc => ({
+    ...doc.data(),
+    id: doc.id,
+  }))
   return result
 }
 
